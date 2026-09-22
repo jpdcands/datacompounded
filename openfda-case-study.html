@@ -117,8 +117,9 @@
     border-top: 1px solid var(--rule);
   }
   .meta-row dt { color: var(--green); text-transform: uppercase; font-size: 11px; letter-spacing: 0.06em; margin-bottom: 3px; }
-  .meta-row dd { margin: 0; color: var(--ink); }
-
+  .meta-row > div { min-width: 0; }
+  .meta-row dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
+  
   /* ---- content sections ---- */
   section { padding: 40px 0; border-bottom: 1px solid var(--rule); }
   section:last-of-type { border-bottom: none; }
@@ -271,7 +272,7 @@
     <dl class="meta-row">
       <div><dt>Server</dt><dd>openfda-mcp</dd></div>
       <div><dt>Endpoint</dt><dd>openfda.datacompounded.com/mcp</dd></div>
-   <div><dt>Source</dt><dd><a href="https://github.com/jpdcands/openfda-mcp">github.com/jpdcands/openfda-mcp</a></dd></div>
+   <div><dt>Source</dt><dd><a href="https://github.com/jpdcands/openfda-mcp">GitHub repo</a></dd></div>
       <div><dt>Data source</dt><dd>FDA OpenFDA API</dd></div>
       <div><dt>Status</dt><dd>Deployed &amp; verified</dd></div>
     </dl>
