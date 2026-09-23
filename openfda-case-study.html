@@ -215,6 +215,34 @@
   .verify .check { font-size: 18px; color: var(--green); }
   .verify a { font-weight: 600; }
 
+  /* before / after ledger */
+  .ledger {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 22px;
+    font-size: 15px;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+  }
+  .ledger th {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--green);
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--green-deep);
+  }
+  .ledger td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .ledger tr:last-child td { border-bottom: none; }
+  .ledger td:first-child { color: var(--red); }
+  .ledger td:last-child { color: var(--green-deep); }
+
   /* footer / prescriber block */
   .rx-footer {
     padding: 40px 0 60px;
@@ -247,6 +275,12 @@
     body { font-size: 16px; }
     .topbar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
     .topbar nav a { margin-left: 0; margin-right: 16px; }
+    .ledger, .ledger tbody, .ledger tr, .ledger td { display: block; width: 100%; }
+    .ledger thead { display: none; }
+    .ledger tr { border-bottom: 1px solid var(--rule); padding: 8px 0; }
+    .ledger td { border-bottom: none; padding: 4px 14px; }
+    .ledger td:first-child::before { content: "Before: "; font-family: var(--mono); font-size: 12px; }
+    .ledger td:last-child::before { content: "Now: "; font-family: var(--mono); font-size: 12px; color: var(--green); }
   }
 </style>
 </head>
@@ -290,8 +324,8 @@
     <h3>Two tools, deliberately narrow</h3>
     <div class="tools">
       <div class="tool-card">
-        <div class="name">get_drug_label(drug_name)</div>
-        <p>Pulls the FDA-approved label for a drug and returns it as structured sections — boxed warnings, indications, contraindications, warnings and precautions, dosing, drug interactions, adverse reactions — so an agent can reason over a specific section without parsing free text itself.</p>
+        <div class="name">get_drug_label(drug_name, sections)</div>
+        <p>Pulls the FDA-approved label for a drug and returns the sections a pharmacist reaches for first — boxed warning, indications, dosing, contraindications, warnings and precautions — each capped in length so the answer fits an AI client's limits. Ask for others (drug interactions, renal impairment, pregnancy and more) with <code>sections</code>. Every answer says which product it matched, whose label it is, and whether it's immediate or modified release.</p>
       </div>
       <div class="tool-card">
         <div class="name">get_adverse_events(drug_name, limit)</div>
@@ -327,10 +361,47 @@
   </section>
 
   <section>
+    <h2>Hardening</h2>
+    <h3>Testing against real FDA data</h3>
+    <p>The first real query, &ldquo;metformin,&rdquo; failed twice. The answer was far too big: the full label, raw HTML tables included, overflowed Claude&rsquo;s 25,000-token tool-output limit and was cut off. And it was the wrong product. It returned Zituvimet, a sitagliptin/metformin combination, because the search matched any label that mentioned metformin and took whichever came first.</p>
+
+    <div class="decision">
+      <div class="label">Fix 01 — Size and matching</div>
+      <p><strong>Return what a pharmacist needs, for the product they meant.</strong> The response now carries only the key sections, each capped, with the HTML tables dropped; on a full-size test label that took it from about 366,000 characters to under 10,000. Matching asks OpenFDA for the exact product names first and prefers the single-ingredient generic used on the most labels.</p>
+    </div>
+
+    <div class="decision">
+      <div class="label">Fix 02 — Let the data find the bugs</div>
+      <p><strong>Two kinds of test.</strong> Fast offline tests check the logic. Live tests run against the real OpenFDA API for common drugs — metformin, lisinopril, warfarin, Eliquis and others. The live tests caught what no offline test would have: stray one-off names like &ldquo;METFORMIN ER 500 MG&rdquo; beating the standard METFORMIN HYDROCHLORIDE; the newest label often being a repackager&rsquo;s copy rather than the manufacturer&rsquo;s; and the default answer coming back as extended release when a pharmacist asking for &ldquo;metformin&rdquo; means immediate release.</p>
+    </div>
+
+    <div class="decision">
+      <div class="label">Fix 03 — The Eliquis problem</div>
+      <p><strong>Every label tagged ELIQUIS was a repackager&rsquo;s.</strong> Bristol-Myers Squibb&rsquo;s own label was in the data but carried no tags at all. The label text couldn&rsquo;t be trusted to name the company either: repackagers copy &ldquo;Marketed by: Bristol-Myers Squibb&rdquo; word for word. What they can&rsquo;t copy is the NDC on their own carton. The server now finds the original company&rsquo;s labeler code in the FDA NDC directory — <code>0003</code> for Bristol-Myers Squibb — and picks the label with that code on its carton.</p>
+    </div>
+
+    <table class="ledger">
+      <thead><tr><th>Before</th><th>Now</th></tr></thead>
+      <tbody>
+        <tr><td>&ldquo;metformin&rdquo; returned a combination product</td><td>Plain metformin HCl</td></tr>
+        <tr><td>Answer overflowed the client&rsquo;s limit</td><td>Key sections, capped; more on request</td></tr>
+        <tr><td>Newest label, often a repackager&rsquo;s</td><td>Original manufacturer; repackager only as a fallback</td></tr>
+        <tr><td>Extended release by default</td><td>Immediate release; &ldquo;metformin ER&rdquo; for ER</td></tr>
+        <tr><td>Eliquis only from repackagers</td><td>Bristol-Myers Squibb, matched by carton NDC</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <span class="callout-label">Takeaway</span>
+      <p>Domain knowledge decided what &ldquo;correct&rdquo; meant: the right product, from the original maker, in the right release form. Live tests against real data showed where the code fell short of it. Every fix now has a test built from the real case that exposed it, and 29 offline and 13 live tests run before every deploy.</p>
+    </div>
+  </section>
+
+  <section>
     <h2>Verification</h2>
     <div class="verify">
       <span class="check">✓</span>
-      <span>Confirmed end-to-end via a native remote MCP connection — both tools return live OpenFDA data on request, checked against known label content. Live at <code>openfda.datacompounded.com/mcp</code> (<a href="https://github.com/jpdcands/openfda-mcp">source on GitHub</a>).</span>
+      <span>Confirmed end-to-end via a native remote MCP connection — both tools return live OpenFDA data on request, checked against known label content. The full test suite, including live tests against the FDA API, passes before every deploy. Live at <code>openfda.datacompounded.com/mcp</code> (<a href="https://github.com/jpdcands/openfda-mcp">source on GitHub</a>).</span>
     </div>
   </section>
 
