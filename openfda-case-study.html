@@ -383,7 +383,7 @@
     <a class="brand" href="/">DATA COMPOUNDED</a>
     <nav>
       <a href="/#work">Work</a>
-      <a href="#try-it">Try it</a>
+      <a href="try-it.html">Try it</a>
       <a href="https://github.com/jpdcands/openfda-mcp">Code</a>
       <a href="mailto:paul@datacompounded.com?subject=New%20engagement%20inquiry">Contact</a>
     </nav>
@@ -405,55 +405,11 @@
     </dl>
   </header>
 
-  <section id="try-it">
+  <section>
     <h2>Try it in 60 seconds</h2>
     <h3>See an MCP server at work</h3>
-    <p class="try-lead">Want to see what an MCP server actually does? You can give Claude direct access to FDA drug data in about a minute. There's no coding and nothing to install.</p>
-
-    <div class="need">
-      <div class="mini-label">What you'll need</div>
-      <ul>
-        <li>A Claude account on any plan. Free accounts can add one custom connector.</li>
-        <li>About a minute on claude.ai or the Claude desktop app. Once it's set up, it works on your phone too.</li>
-        <li>On a company Team or Enterprise account? Your organization's owner has to add the connector.</li>
-      </ul>
-    </div>
-
-    <ol class="steps">
-      <li class="step">
-        <div class="mini-label">Step 1 — Add the connector <span class="time">· about 30 seconds</span></div>
-        <p>In Claude's settings, find <strong>Connectors</strong> and choose to add a custom connector. Give it a name like <strong>OpenFDA</strong> and paste in this address:</p>
-        <div class="endpoint">
-          <span id="endpoint-url">https://openfda.datacompounded.com/mcp</span>
-          <button type="button" class="copy-btn" data-copy="endpoint-url">Copy</button>
-        </div>
-        <p>Save it, and you're done with setup. Claude will note that custom connectors aren't verified by Anthropic. This one only reads public FDA data and never asks you to sign in.</p>
-      </li>
-      <li class="step">
-        <div class="mini-label">Step 2 — Ask a question <span class="time">· about 30 seconds</span></div>
-        <p>Start a new chat and ask something in plain English. Try one of these:</p>
-        <ul class="questions">
-          <li><span class="emoji">💊</span><span>&ldquo;What does the FDA label say about using metformin in patients with kidney problems?&rdquo;</span></li>
-          <li><span class="emoji">⚠️</span><span>&ldquo;What are the most commonly reported adverse events for atorvastatin?&rdquo;</span></li>
-          <li><span class="emoji">🔍</span><span>&ldquo;Does the lisinopril label have a boxed warning? What does it say?&rdquo;</span></li>
-          <li><span class="emoji">🤰</span><span>&ldquo;What does the sertraline label say about use during pregnancy?&rdquo;</span></li>
-        </ul>
-        <div class="tip"><strong>Not seeing FDA data?</strong> Click the <strong>+</strong> in the chat box, open <strong>Connectors</strong>, and make sure OpenFDA is switched on.</div>
-      </li>
-    </ol>
-
-    <div class="decision">
-      <div class="label">What happens behind the scenes</div>
-      <p>Claude recognizes that your question needs real FDA data. It calls this server, which retrieves the official drug label or adverse event reports from the FDA's public database. Claude then reads the results and answers you. You may see a note that it used the OpenFDA tool. That's the MCP server at work.</p>
-      <p>That's the whole idea behind MCP: it gives an AI a safe, well-defined way to reach real data sources, instead of relying on what it memorized in training.</p>
-    </div>
-
-    <div class="decision">
-      <div class="label">Why this matters</div>
-      <p>The same approach can connect an AI assistant to a pharmacy's formulary, a drug interaction database, inventory systems, or internal clinical references. The data stays authoritative and up to date, and the AI does the explaining.</p>
-    </div>
-
-    <p class="fine-print"><strong>Note:</strong> Results come from the FDA's public openFDA database and are provided for informational and demonstration purposes only. They aren't a substitute for professional clinical judgment. Adverse event reports reflect what was reported and don't establish that a drug caused an event.</p>
+    <p>Connect Claude to this server in about a minute, with no coding and nothing to install, then ask it about any drug label.</p>
+    <a class="back-link" href="try-it.html">Try it in 60 seconds &rarr;</a>
   </section>
 
   <section>

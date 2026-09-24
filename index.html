@@ -434,6 +434,17 @@
   }
   .fill-meta .filled-stamp { color: var(--pharmacy-green); font-weight: 600; }
 
+  .try-link {
+    display: inline-block;
+    margin-top: 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--pharmacy-green);
+    text-decoration: none;
+  }
+  .try-link:hover { text-decoration: underline; }
+
   @media (max-width: 820px) {
     .card-grid { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; gap: 30px; }
@@ -472,6 +483,7 @@
   <div class="links">
     <a href="#directions">Services</a>
     <a href="#work">Work</a>
+    <a href="try-it.html">Try it</a>
     <a href="#about">About</a>
     <a href="#formulary">Formulary</a>
     <a href="#contact">Contact</a>
@@ -556,6 +568,8 @@
       <span class="filled-stamp">Deployed &amp; verified</span>
     </div>
   </a>
+
+  <a class="try-link" href="try-it.html">℞ Try it yourself in 60 seconds &rarr;</a>
 </section>
 
 <section class="about" id="about">

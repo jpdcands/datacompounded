@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Try the OpenFDA MCP Server in 60 Seconds | Data Compounded</title>
+<meta name="description" content="Give Claude direct access to FDA drug label and adverse event data in about a minute. No coding, nothing to install.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c2420;
+    --paper: #f6f2e9;
+    --paper-raised: #fffdf8;
+    --rule: #d8cfb8;
+    --green: #2f4a3c;
+    --green-deep: #1f342a;
+    --amber: #b5792a;
+    --amber-soft: #e8d6b3;
+    --red: #9c3b2e;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+    --stamp: 'Special Elite', cursive;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+
+  a { color: var(--green); }
+  a:hover { color: var(--amber); }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---- top bar ---- */
+  .topbar {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-raised);
+  }
+  .topbar-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    font-family: var(--mono);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--green-deep);
+    text-decoration: none;
+    font-size: 15px;
+  }
+  .topbar nav a {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink);
+    text-decoration: none;
+    margin-left: 18px;
+  }
+  .topbar nav a:first-child { margin-left: 0; }
+  .topbar nav a:hover { color: var(--amber); }
+
+  /* ---- page header ---- */
+  .rx-head {
+    padding: 56px 0 28px;
+    border-bottom: 3px double var(--green-deep);
+  }
+  .rx-eyebrow {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .rx-eyebrow .symbol { font-size: 20px; color: var(--red); }
+  .rx-title {
+    font-family: var(--stamp);
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1.25;
+    color: var(--green-deep);
+    margin: 0 0 18px;
+  }
+  .try-lead { font-size: 18px; color: #4a4438; max-width: 58ch; margin: 0; }
+
+  /* ---- content sections ---- */
+  section { padding: 40px 0; border-bottom: 1px solid var(--rule); }
+  section:last-of-type { border-bottom: none; }
+
+  h2 {
+    font-family: var(--mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+    margin: 0 0 6px;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--green-deep);
+    margin: 0 0 18px;
+  }
+
+  p { margin: 0 0 16px; }
+  p:last-child { margin-bottom: 0; }
+
+  .decision {
+    padding: 20px 0;
+    border-top: 1px dashed var(--rule);
+  }
+  .decision:first-of-type { border-top: none; padding-top: 0; }
+  .decision .label {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  /* ---- try it ---- */
+  .need {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    padding: 18px 20px;
+    border-radius: 2px;
+    margin: 0 0 8px;
+  }
+  .mini-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .need ul { margin: 0; padding-left: 20px; font-size: 15.5px; }
+  .need li { margin-bottom: 4px; }
+  .need li:last-child { margin-bottom: 0; }
+
+  .steps { list-style: none; margin: 0; padding: 0; }
+  .step {
+    padding: 22px 0;
+    border-top: 1px dashed var(--rule);
+  }
+  .step:first-child { border-top: none; padding-top: 0; }
+  .step .mini-label .time { color: #5c5645; text-transform: none; letter-spacing: 0; }
+
+  .endpoint {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--green-deep);
+    color: var(--paper);
+    padding: 12px 14px 12px 18px;
+    border-radius: 3px;
+    margin: 0 0 16px;
+  }
+  .endpoint span {
+    font-family: var(--mono);
+    font-size: 15px;
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .copy-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--amber-soft);
+    color: var(--green-deep);
+    border: none;
+    border-radius: 3px;
+    padding: 7px 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .copy-btn:hover { background: var(--paper); }
+
+  .questions { display: grid; gap: 10px; margin: 14px 0 18px; padding: 0; list-style: none; }
+  .questions li {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--green);
+    padding: 12px 16px;
+    border-radius: 2px;
+    font-size: 15.5px;
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+  }
+  .questions .emoji { flex-shrink: 0; }
+
+  .tip {
+    background: var(--amber-soft);
+    border: 1px solid var(--amber);
+    padding: 14px 18px;
+    border-radius: 3px;
+    font-size: 15px;
+  }
+  .tip strong { color: var(--green-deep); }
+
+  .fine-print {
+    font-size: 13.5px;
+    color: #5c5645;
+  }
+
+  /* ---- footer ---- */
+  .rx-footer { padding: 40px 0 60px; }
+  .signature {
+    font-family: var(--stamp);
+    font-size: 20px;
+    color: var(--green-deep);
+    margin-bottom: 4px;
+  }
+  .sig-detail {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: #5c5645;
+  }
+  .footer-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .back-link {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 8px 16px;
+    border-radius: 3px;
+  }
+  .back-link:hover { background: var(--green); color: var(--paper); }
+
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .endpoint { flex-direction: column; align-items: stretch; }
+    .copy-btn { align-self: flex-start; }
+    .topbar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .topbar nav a { margin-left: 0; margin-right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="/">DATA COMPOUNDED</a>
+    <nav>
+      <a href="/#work">Work</a>
+      <a href="openfda-case-study.html">Case study</a>
+      <a href="https://github.com/jpdcands/openfda-mcp">Code</a>
+      <a href="mailto:paul@datacompounded.com?subject=New%20engagement%20inquiry">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="rx-head">
+    <div class="rx-eyebrow"><span class="symbol">℞</span> TRY IT — OPENFDA MCP SERVER</div>
+    <h1 class="rx-title">Try it in 60 seconds</h1>
+    <p class="try-lead">Want to see what an MCP server actually does? You can give Claude direct access to FDA drug data in about a minute. There's no coding and nothing to install.</p>
+  </header>
+
+  <section>
+    <div class="need">
+      <div class="mini-label">What you'll need</div>
+      <ul>
+        <li>A Claude account on any plan. Free accounts can add one custom connector.</li>
+        <li>About a minute on claude.ai or the Claude desktop app. Once it's set up, it works on your phone too.</li>
+        <li>On a company Team or Enterprise account? Your organization's owner has to add the connector.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <ol class="steps">
+      <li class="step">
+        <div class="mini-label">Step 1 — Add the connector <span class="time">· about 30 seconds</span></div>
+        <p>In Claude's settings, find <strong>Connectors</strong> and choose to add a custom connector. Give it a name like <strong>OpenFDA</strong> and paste in this address:</p>
+        <div class="endpoint">
+          <span id="endpoint-url">https://openfda.datacompounded.com/mcp</span>
+          <button type="button" class="copy-btn" data-copy="endpoint-url">Copy</button>
+        </div>
+        <p>Save it, and you're done with setup. Claude will note that custom connectors aren't verified by Anthropic. This one only reads public FDA data and never asks you to sign in.</p>
+      </li>
+      <li class="step">
+        <div class="mini-label">Step 2 — Ask a question <span class="time">· about 30 seconds</span></div>
+        <p>Start a new chat and ask something in plain English. Try one of these:</p>
+        <ul class="questions">
+          <li><span class="emoji">💊</span><span>&ldquo;What does the FDA label say about using metformin in patients with kidney problems?&rdquo;</span></li>
+          <li><span class="emoji">⚠️</span><span>&ldquo;What are the most commonly reported adverse events for atorvastatin?&rdquo;</span></li>
+          <li><span class="emoji">🔍</span><span>&ldquo;Does the lisinopril label have a boxed warning? What does it say?&rdquo;</span></li>
+          <li><span class="emoji">🤰</span><span>&ldquo;What does the sertraline label say about use during pregnancy?&rdquo;</span></li>
+        </ul>
+        <div class="tip"><strong>Not seeing FDA data?</strong> Click the <strong>+</strong> in the chat box, open <strong>Connectors</strong>, and make sure OpenFDA is switched on.</div>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="decision">
+      <div class="label">What happens behind the scenes</div>
+      <p>Claude recognizes that your question needs real FDA data. It calls this server, which retrieves the official drug label or adverse event reports from the FDA's public database. Claude then reads the results and answers you. You may see a note that it used the OpenFDA tool. That's the MCP server at work.</p>
+      <p>That's the whole idea behind MCP: it gives an AI a safe, well-defined way to reach real data sources, instead of relying on what it memorized in training.</p>
+    </div>
+
+    <div class="decision">
+      <div class="label">Why this matters</div>
+      <p>The same approach can connect an AI assistant to a pharmacy's formulary, a drug interaction database, inventory systems, or internal clinical references. The data stays authoritative and up to date, and the AI does the explaining.</p>
+      <p>Curious how the server was built, and the clinical judgment calls behind it? <a href="openfda-case-study.html">Read the case study</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="fine-print"><strong>Note:</strong> Results come from the FDA's public openFDA database and are provided for informational and demonstration purposes only. They aren't a substitute for professional clinical judgment. Adverse event reports reflect what was reported and don't establish that a drug caused an event.</p>
+  </section>
+
+  <div class="rx-footer">
+    <div class="signature">Paul</div>
+    <div class="sig-detail">Retired Pharmacist (RPh), Virginia · 32 yrs practice · Data Compounded, LLC</div>
+    <div class="footer-links">
+      <a class="back-link" href="openfda-case-study.html">Read the case study &rarr;</a>
+      <a class="back-link" href="/">&larr; Back to Data Compounded</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = document.getElementById(btn.dataset.copy).textContent.trim();
+      var done = function () {
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1800);
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, function () {});
+      } else {
+        var range = document.createRange();
+        range.selectNodeContents(document.getElementById(btn.dataset.copy));
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        btn.textContent = 'Press Ctrl+C';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
