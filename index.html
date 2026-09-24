@@ -38,6 +38,14 @@
   .mono { font-family: 'IBM Plex Mono', monospace; }
   .label-face { font-family: 'Special Elite', cursive; }
 
+  /* small section labels ("Directions for use", "Compound history", "Next fill"...) */
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
   /* ---------- NAV ---------- */
   nav {
     position: sticky;
@@ -145,7 +153,7 @@
     position: absolute;
     top: -1px; left: 0; right: 0;
     height: 8px;
-    background-image: radial-gradient(circle at 6px 4px, transparent 3.2px, var(--paper) 3.3px);
+    background-image: radial-gradient(circle at 6px 4px, transparent 3.2px, var(--ink) 3.3px);
     background-size: 12px 8px;
     background-position: -2px 0;
   }
@@ -219,7 +227,7 @@
 
   /* ---------- DIRECTIONS (services, 3-up) ---------- */
   section.directions {
-    padding: 7vw 6vw;
+    padding: 7vw 6vw 3.5vw;
     max-width: 1180px;
     margin: 0 auto;
   }
@@ -389,7 +397,7 @@
 
   /* ---------- FILLED PRESCRIPTIONS (case studies) ---------- */
   section.filled {
-    padding: 7vw 6vw;
+    padding: 3.5vw 6vw 7vw;
     max-width: 1180px;
     margin: 0 auto;
   }
@@ -455,6 +463,11 @@
   @media (max-width: 600px) {
     nav { flex-wrap: wrap; row-gap: 10px; padding: 14px 5vw; }
     nav .links { flex-wrap: wrap; gap: 6px 18px; font-size: 13px; }
+
+    .section-head { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 30px; }
+
+    .rx-footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .rx-footer .refills { text-align: left; }
 
     table.formulary-table,
     table.formulary-table tbody,
