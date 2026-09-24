@@ -442,16 +442,39 @@
   }
   .fill-meta .filled-stamp { color: var(--pharmacy-green); font-weight: 600; }
 
-  .try-link {
+  /* shipped-work card + "try it" button, kept the same width */
+  .work-wrap { max-width: 780px; }
+  .fill-card:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
+  .fill-cta {
     display: inline-block;
     margin-top: 18px;
+    background: var(--pharmacy-green);
+    color: var(--label-cream);
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 11px 20px;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+  }
+  .fill-card:hover .fill-cta { background: #164A3F; }
+
+  .try-row { text-align: center; margin-top: 26px; }
+  .try-link {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 17px;
     font-weight: 600;
     color: var(--pharmacy-green);
+    background: transparent;
+    border: 2px solid var(--pharmacy-green);
+    border-radius: 4px;
+    padding: 13px 26px;
     text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
   }
-  .try-link:hover { text-decoration: underline; }
+  .try-link:hover { background: var(--pharmacy-green); color: var(--label-cream); }
 
   @media (max-width: 820px) {
     .card-grid { grid-template-columns: 1fr; }
@@ -468,6 +491,8 @@
 
     .rx-footer { flex-direction: column; align-items: flex-start; gap: 8px; }
     .rx-footer .refills { text-align: left; }
+
+    .try-link { font-size: 15px; padding: 12px 18px; }
 
     table.formulary-table,
     table.formulary-table tbody,
@@ -569,6 +594,7 @@
     <h2>Shipped work</h2>
   </div>
 
+  <div class="work-wrap">
   <a class="fill-card" href="openfda-case-study.html">
     <span class="rx-mark">℞</span>
     <h3>OpenFDA MCP Server</h3>
@@ -580,9 +606,13 @@
       <span>FDA OpenFDA API</span>
       <span class="filled-stamp">Deployed &amp; verified</span>
     </div>
+    <span class="fill-cta">Read the case study &rarr;</span>
   </a>
 
-  <a class="try-link" href="try-it.html">℞ Try it yourself in 60 seconds &rarr;</a>
+  <div class="try-row">
+    <a class="try-link" href="try-it.html">℞ Try it yourself in 60 seconds &rarr;</a>
+  </div>
+  </div>
 </section>
 
 <section class="about" id="about">
