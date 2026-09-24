@@ -62,14 +62,14 @@
   .nav-mark {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     font-family: 'IBM Plex Mono', monospace;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    font-size: clamp(20px, 2.2vw, 28px);
   }
   .nav-mark .cross {
-    width: 16px; height: 16px;
+    width: 24px; height: 24px;
     position: relative;
     flex-shrink: 0;
   }
@@ -79,8 +79,8 @@
     position: absolute;
     background: var(--pharmacy-green);
   }
-  .nav-mark .cross::before { top: 0; left: 6px; width: 4px; height: 16px; }
-  .nav-mark .cross::after { top: 6px; left: 0; width: 16px; height: 4px; }
+  .nav-mark .cross::before { top: 0; left: 9px; width: 6px; height: 24px; }
+  .nav-mark .cross::after { top: 9px; left: 0; width: 24px; height: 6px; }
   nav .links {
     display: flex;
     gap: 32px;
@@ -227,7 +227,7 @@
 
   /* ---------- DIRECTIONS (services, 3-up) ---------- */
   section.directions {
-    padding: 7vw 6vw 3.5vw;
+    padding: max(7vw, 130px) 6vw 3.5vw;
     max-width: 1180px;
     margin: 0 auto;
   }
@@ -381,19 +381,61 @@
     border-top: 1px solid var(--hairline);
   }
 
-  /* ---------- COMING SOON BANNER ---------- */
-  .status-banner {
-    background: var(--amber);
-    color: var(--ink);
-    text-align: center;
-    padding: 10px 6vw;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    border-bottom: 1px solid rgba(0,0,0,0.15);
+  /* ---------- "CURRENTLY COMPOUNDING" DIAGONAL SASH ---------- */
+  /* straddles the hero / services seam, slanting down from left to right */
+  .sash-zone {
+    position: relative;
+    height: 0;
+    z-index: 5;
+    overflow: visible;
   }
-  .status-banner strong { font-weight: 700; }
+  .sash-clip {
+    position: absolute;
+    left: 0; right: 0;
+    top: -140px;
+    height: 300px;
+    overflow: hidden;          /* keeps the wide band from causing sideways scroll */
+    pointer-events: none;
+  }
+  .sash {
+    position: absolute;
+    left: -10%;
+    width: 120%;
+    top: 50%;
+    transform: translateY(-50%) rotate(4deg);
+    background:
+      repeating-linear-gradient(-45deg,
+        rgba(31,27,22,0.07) 0 10px, transparent 10px 20px),
+      linear-gradient(180deg, var(--amber-glass) 0%, var(--amber) 100%);
+    color: var(--ink);
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    box-shadow: 0 18px 30px -14px rgba(0,0,0,0.55);
+    padding: 14px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    white-space: nowrap;
+  }
+  .sash .sash-text {
+    font-family: 'Special Elite', cursive;
+    font-size: clamp(20px, 3.4vw, 38px);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .sash .sash-text em {
+    font-style: normal;
+    color: var(--label-cream);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+  }
+  .sash .sash-rx {
+    font-family: 'Special Elite', cursive;
+    font-size: clamp(22px, 3.6vw, 40px);
+    color: var(--pharmacy-green);
+    line-height: 1;
+  }
+  .sash .sash-ghost { opacity: 0.35; }
 
   /* ---------- FILLED PRESCRIPTIONS (case studies) ---------- */
   section.filled {
@@ -494,6 +536,11 @@
 
     .try-link { font-size: 15px; padding: 12px 18px; }
 
+    .sash { gap: 10px; padding: 10px 0; transform: translateY(-50%) rotate(5deg); }
+    .sash .sash-ghost { display: none; }
+    .sash .sash-text { font-size: 4.1vw; letter-spacing: 0.01em; }
+    section.directions { padding-top: 110px; }
+
     table.formulary-table,
     table.formulary-table tbody,
     table.formulary-table tr,
@@ -513,8 +560,6 @@
 </style>
 </head>
 <body>
-
-<div class="status-banner">Coming Soon &nbsp;—&nbsp; <strong>Data Compounded</strong> is under construction</div>
 
 <nav>
   <div class="nav-mark"><span class="cross"></span> DATA COMPOUNDED</div>
@@ -563,6 +608,16 @@
     <div class="rx-barcode"></div>
   </div>
 </header>
+
+<div class="sash-zone" role="status" aria-label="Currently Compounding — Coming Soon!">
+  <div class="sash-clip">
+    <div class="sash" aria-hidden="true">
+      <span class="sash-text sash-ghost">Currently Compounding</span>
+      <span class="sash-text">Currently Compounding &nbsp;—&nbsp; <em>Coming Soon!</em></span>
+      <span class="sash-text sash-ghost">Coming Soon!</span>
+    </div>
+  </div>
+</div>
 
 <section class="directions" id="directions">
   <div class="section-head">
