@@ -518,6 +518,46 @@
   }
   .try-link:hover { background: var(--pharmacy-green); color: var(--label-cream); }
 
+    /* ---------- WHY MCP (point of view) ---------- */
+  section.why-mcp {
+    background: var(--label-cream);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    padding: 6vw 6vw;
+  }
+  .why-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .why-inner .tag {
+    color: var(--brick);
+    display: block;
+    margin-bottom: 18px;
+  }
+  .why-inner h2 {
+    font-size: clamp(24px, 3.4vw, 36px);
+    line-height: 1.2;
+    max-width: 30ch;
+    margin: 0 0 24px;
+    padding-left: 22px;
+    border-left: 4px solid var(--amber);
+  }
+  .why-inner p {
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0;
+    padding-left: 26px;
+  }
+  .why-inner p a {
+    color: var(--pharmacy-green);
+    font-weight: 600;
+    text-underline-offset: 3px;
+  }
+  @media (max-width: 600px) {
+    .why-inner h2 { padding-left: 16px; }
+    .why-inner p { padding-left: 20px; font-size: 16px; }
+  }
   @media (max-width: 820px) {
     .card-grid { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; gap: 30px; }
@@ -643,6 +683,18 @@
       <h3>Deployment, not demos</h3>
       <p>Secured, monitored, production infrastructure — HTTPS, reverse proxy, process supervision — so the prototype is the product.</p>
     </div>
+  </div>
+</section>
+
+<section class="why-mcp" id="why-mcp">
+  <div class="why-inner">
+    <span class="tag">Point of view</span>
+    <h2>HTTP won the 1990s by becoming invisible, and the value went to those who built something worth visiting.</h2>
+    <p>
+      I believe MCP will do the same for AI, doing for tools and data what HTTP
+      did for documents: connecting any model to any tool, without anyone having
+      to think about how. That's why I build <a href="#work">servers</a>.
+    </p>
   </div>
 </section>
 
