@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Compounded — Agentic AI + Pharmacy</title>
+<title>Data Compounded — Clinical AI tools built by a pharmacist</title>
+<meta name="description" content="Data Compounded, LLC builds MCP servers and clinical decision support tools that give AI systems safe, structured access to drug data, EHRs and PBMs. Built by a pharmacist, not translated for one.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -38,7 +39,7 @@
   .mono { font-family: 'IBM Plex Mono', monospace; }
   .label-face { font-family: 'Special Elite', cursive; }
 
-  /* small section labels ("Directions for use", "Compound history", "Next fill"...) */
+  /* small section labels */
   .tag {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
@@ -83,12 +84,22 @@
   .nav-mark .cross::after { top: 9px; left: 0; width: 24px; height: 6px; }
   nav .links {
     display: flex;
+    align-items: center;
     gap: 32px;
     font-size: 14px;
     font-family: 'IBM Plex Mono', monospace;
   }
   nav .links a { text-decoration: none; opacity: 0.75; transition: opacity 0.15s; }
   nav .links a:hover { opacity: 1; }
+  nav .links a.nav-cta {
+    opacity: 1;
+    background: var(--pharmacy-green);
+    color: var(--label-cream);
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+  }
+  nav .links a.nav-cta:hover { background: #164A3F; }
 
   /* ---------- HERO ---------- */
   header.hero {
@@ -122,15 +133,56 @@
   .hero h1 {
     font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 700;
-    font-size: clamp(26px, 5vw, 54px);
+    font-size: clamp(26px, 4.6vw, 52px);
     line-height: 1.12;
     max-width: none;
     text-align: center;
-    margin: 0 0 40px;
+    margin: 0 0 24px;
     z-index: 1;
   }
 
   .hero h1 .h1-line { display: block; }
+
+  .hero-sub {
+    z-index: 1;
+    max-width: 62ch;
+    text-align: center;
+    font-size: clamp(16px, 1.6vw, 19px);
+    color: #D9D2C2;
+    margin: 0 0 30px;
+  }
+  .hero-actions {
+    z-index: 1;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 52px;
+  }
+  .btn-primary,
+  .btn-ghost {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 14px 26px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  }
+  .btn-primary {
+    background: var(--amber-glass);
+    color: var(--ink);
+    border: 2px solid var(--amber-glass);
+  }
+  .btn-primary:hover { background: #E39A3C; border-color: #E39A3C; transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--label-cream);
+    border: 2px solid rgba(245,239,222,0.55);
+  }
+  .btn-ghost:hover { background: var(--label-cream); color: var(--ink); }
 
   /* ---- prescription label, the signature element ---- */
   .rx-label {
@@ -225,7 +277,7 @@
     opacity: 0.85;
   }
 
-  /* ---------- DIRECTIONS (services, 3-up) ---------- */
+  /* ---------- SERVICES (3-up) ---------- */
   section.directions {
     padding: max(7vw, 130px) 6vw 3.5vw;
     max-width: 1180px;
@@ -247,6 +299,12 @@
   .section-head h2 {
     font-size: clamp(24px, 3vw, 32px);
     margin: 0;
+  }
+  .mcp-explainer {
+    max-width: 68ch;
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin: -18px 0 34px;
   }
   .card-grid {
     display: grid;
@@ -293,8 +351,25 @@
   }
   .about-grid .tag { color: var(--amber-glass); }
   .about-grid h2 { font-size: clamp(24px, 3vw, 32px); margin: 14px 0 0; max-width: 12ch; }
+  .about-photo {
+    display: block;
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--amber-glass);
+    margin: 26px 0 0;
+  }
   .about-copy p { font-size: 16px; color: #D9D2C2; max-width: 62ch; }
   .about-copy p:first-child { margin-top: 0; }
+  .about-copy h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber-glass);
+    margin: 34px 0 0;
+  }
   .credentials {
     margin-top: 28px;
     display: flex;
@@ -305,7 +380,7 @@
   }
   .credentials div strong { display: block; font-size: 20px; color: var(--amber-glass); font-family: 'IBM Plex Sans', sans-serif; }
 
-  /* ---------- FORMULARY (services table) ---------- */
+  /* ---------- ENGAGEMENT TABLE ---------- */
   section.formulary {
     padding: 7vw 6vw;
     max-width: 1180px;
@@ -331,8 +406,7 @@
     border-bottom: 1px solid var(--hairline);
     vertical-align: top;
   }
-  table.formulary-table td.status {
-    white-space: nowrap;
+  table.formulary-table td.gets {
     color: var(--pharmacy-green);
     font-weight: 600;
   }
@@ -437,7 +511,7 @@
   }
   .sash .sash-ghost { opacity: 0.35; }
 
-  /* ---------- FILLED PRESCRIPTIONS (case studies) ---------- */
+  /* ---------- LIVE WORK (case studies) ---------- */
   section.filled {
     padding: 3.5vw 6vw 7vw;
     max-width: 1180px;
@@ -487,6 +561,9 @@
   /* shipped-work card + "try it" button, kept the same width */
   .work-wrap { max-width: 780px; }
   .fill-card:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
+  .fill-card.static { margin-top: 30px; }
+  .fill-card.static:hover { transform: none; box-shadow: none; }
+  .fill-card.static:hover h3 { text-decoration: none; }
   .fill-cta {
     display: inline-block;
     margin-top: 18px;
@@ -518,7 +595,7 @@
   }
   .try-link:hover { background: var(--pharmacy-green); color: var(--label-cream); }
 
-   /* ---------- WHY MCP (point of view) ---------- */
+  /* ---------- WHY MCP (point of view) ---------- */
   section.why-mcp {
     background: var(--label-cream);
     border-top: 1px solid var(--hairline);
@@ -562,19 +639,24 @@
   }
   @media (max-width: 600px) {
     .why-inner p { font-size: 16px; }
-  }  
+  }
   @media (max-width: 820px) {
     .card-grid { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; gap: 30px; }
     footer { flex-direction: column; gap: 8px; text-align: center; }
   }
 
-  /* phones: keep the menu and the formulary table inside the screen */
+  /* phones: keep the menu and the engagement table inside the screen */
   @media (max-width: 600px) {
     nav { flex-wrap: wrap; row-gap: 10px; padding: 14px 5vw; }
     nav .links { flex-wrap: wrap; gap: 6px 18px; font-size: 13px; }
+    nav .links a.nav-cta { padding: 6px 12px; }
 
     .section-head { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 30px; }
+    .mcp-explainer { margin-top: -10px; }
+
+    .hero-actions { margin-bottom: 40px; }
+    .btn-primary, .btn-ghost { font-size: 13px; padding: 12px 20px; }
 
     .rx-footer { flex-direction: column; align-items: flex-start; gap: 8px; }
     .rx-footer .refills { text-align: left; }
@@ -594,17 +676,18 @@
     table.formulary-table tr { padding: 14px 0; border-bottom: 1px solid var(--hairline); }
     table.formulary-table td { padding: 2px 0; border-bottom: none; }
     table.formulary-table td:first-child { font-weight: 600; }
-    table.formulary-table td.status { font-size: 12px; margin-top: 4px; }
+    table.formulary-table td.gets { font-size: 13px; margin-top: 4px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .cta-button { transition: none; }
+    .cta-button, .btn-primary, .btn-ghost { transition: none; }
     .fill-card { transition: none; }
   }
-.contact-body { max-width: 560px; margin: 0 auto 28px; font-size: 17px; line-height: 1.6; }
+.contact-body { max-width: 560px; margin: 0 auto 18px; font-size: 17px; line-height: 1.6; }
+.contact-fit { max-width: 560px; margin: 0 auto 28px; font-size: 17px; line-height: 1.6; font-weight: 600; }
 .contact-links { font-size: 15px; }
-.contact-links .sep { margin: 0 10px; opacity: 0.6; }  
+.contact-links .sep { margin: 0 10px; opacity: 0.6; }
 </style>
 </head>
 <body>
@@ -612,22 +695,26 @@
 <nav>
   <div class="nav-mark"><span class="cross"></span> DATA COMPOUNDED</div>
   <div class="links">
-    <a href="#directions">Services</a>
-    <a href="#work">Work</a>
+    <a href="#directions">What I build</a>
+    <a href="#work">Live work</a>
     <a href="try-it.html">Try it</a>
     <a href="#about">About</a>
-    <a href="#formulary">Formulary</a>
-    <a href="#contact">Contact</a>
+    <a href="#engage">Work together</a>
+    <a class="nav-cta" href="#contact">Contact</a>
   </div>
 </nav>
 
 <header class="hero">
-  <p class="eyebrow">Agentic AI &nbsp;·&nbsp; Pharmacy Systems</p>
+  <p class="eyebrow">Agentic AI &nbsp;·&nbsp; Pharmacy &amp; Health-Tech</p>
   <h1>
-    <span class="h1-line">Clinical judgment,</span>
-    <span class="h1-line">compounded</span>
-    <span class="h1-line">into working software</span>
+    <span class="h1-line">Clinical AI tools, built by a pharmacist,</span>
+    <span class="h1-line">not translated for one.</span>
   </h1>
+  <p class="hero-sub">I'm Paul Doolittle, a retired pharmacist with 32 years of practice. Through Data Compounded, I build MCP servers and clinical decision support tools that give AI systems safe, structured access to drug data, EHRs and PBMs.</p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="#work">See the live OpenFDA server</a>
+    <a class="btn-ghost" href="mailto:paul@datacompounded.com">Email Paul</a>
+  </div>
 
   <div class="rx-label">
     <div class="rx-row">
@@ -639,13 +726,13 @@
     <div class="rx-strength">for pharmacy &amp; health-tech teams — custom strength</div>
     <div class="rx-sig">
       <strong>Sig:</strong>
-      Deploy one MCP server as needed for clinical decision support, drug
-      interaction checking, formulary lookups, and EHR/PBM connectivity.
-      Built by a retired pharmacist, not translated for one.
+      MCP servers and clinical decision support for drug interaction
+      checking, formulary lookups, and EHR/PBM connectivity. Built by a
+      retired pharmacist, not translated for one.
     </div>
     <div class="rx-footer">
       <div>
-        <div>Prescriber: Paul, Pharmacy practice · 32 yrs</div>
+        <div>Prescriber: Paul Doolittle, RPh · 32 yrs pharmacy practice</div>
         <div>Retired Pharmacist (RPh), Virginia</div>
       </div>
       <div class="refills">
@@ -669,9 +756,10 @@
 
 <section class="directions" id="directions">
   <div class="section-head">
-    <span class="tag">Directions for use</span>
-    <h2>What gets built</h2>
+    <span class="tag">Services</span>
+    <h2>What I build</h2>
   </div>
+  <p class="mcp-explainer">MCP (Model Context Protocol) is the open standard that lets an AI model use a tool or data source without custom plumbing. It's how an assistant can look up a real drug label instead of guessing.</p>
   <div class="card-grid">
     <div class="direction-card">
       <span class="num">01</span>
@@ -693,7 +781,7 @@
 
 <section class="why-mcp" id="why-mcp">
   <div class="why-inner">
-    <span class="tag">Point of view</span>
+    <span class="tag">Why MCP</span>
     <h2>HTTP won the 1990s by becoming invisible, and the value went to those who built something worth visiting.</h2>
     <p>
       I believe MCP will do the same for AI, doing for tools and data what HTTP
@@ -702,10 +790,10 @@
     </p>
   </div>
 </section>
-S
+
 <section class="filled" id="work">
   <div class="section-head">
-    <span class="tag">Filled prescriptions</span>
+    <span class="tag">Live work</span>
     <h2>Shipped work</h2>
   </div>
 
@@ -727,30 +815,49 @@ S
   <div class="try-row">
     <a class="try-link" href="try-it.html">℞ Try it yourself in 60 seconds &rarr;</a>
   </div>
+
+  <div class="fill-card static">
+    <span class="rx-mark">℞</span>
+    <h3>Text-utils MCP Server</h3>
+    <p>My first production deployment: a small MCP server for character
+       and word counts, live at mcp.datacompounded.com.</p>
+    <div class="fill-meta">
+      <span>text-utils-mcp</span>
+      <span class="filled-stamp">Live in production</span>
+    </div>
+  </div>
   </div>
 </section>
 
 <section class="about" id="about">
   <div class="about-grid">
     <div>
-      <span class="tag mono">Compound history</span>
-      <h2>Clinical judgment,<br>compounded.</h2>
+      <span class="tag mono">About</span>
+      <h2>Built by a pharmacist.</h2>
+      <!-- Add your photo here once you have the file, for example:
+      <img class="about-photo" src="paul-doolittle.jpg" alt="Paul Doolittle, RPh">
+      -->
     </div>
     <div class="about-copy">
-      <p>Thirty-two years behind the counter teaches you where clinical systems actually break — the interaction the software missed, the formulary rule nobody encoded, the handoff that lost context. That's the practice this work draws from.</p>
-      <p>The pivot into agentic AI isn't a career change so much as a change of instrument: the same clinical judgment, now built directly into the tools that pharmacists, prescribers, and health-tech teams rely on.</p>
+      <p>Thirty-two years behind the pharmacy counter teaches you where clinical systems actually break — the interaction the software missed, the formulary rule nobody encoded, the handoff that lost context.</p>
+      <p>Today I bring that judgment to agentic AI. After 15 years of retirement, I found I missed having a hard problem in front of me, and that led me to AI engineering. Through Data Compounded, LLC, I build MCP servers and clinical decision support tools that give AI systems safe, structured access to drug data, EHRs and PBMs.</p>
+      <p>I also owned and operated a relief-pharmacist staffing company for 11 years, placing pharmacists across more than 40 pharmacies. I've seen the profession from both sides: the day-to-day of dispensing and counseling, and the business of keeping pharmacies staffed and running.</p>
+
+      <h3>How I work</h3>
+      <p>I work the way I practiced pharmacy: carefully, and checked twice. I take on a small number of projects at a time so each one gets full attention, and I don't call anything done until it's deployed, tested and verified. My OpenFDA MCP Server is live and documented, and that's the standard every project gets.</p>
+
       <div class="credentials">
         <div><strong>32 yrs</strong>Pharmacy practice</div>
-        <div><strong>VA</strong>Retired pharmacist (RPh)</div>
+        <div><strong>40+</strong>Pharmacies staffed</div>
         <div><strong>MCP</strong>Server architecture &amp; deployment</div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="formulary" id="formulary">
+<section class="formulary" id="engage">
   <div class="section-head">
-    <span class="tag">On the formulary</span>
+    <span class="tag">Ways to work together</span>
     <h2>Engagement types</h2>
   </div>
   <table class="formulary-table">
@@ -758,29 +865,29 @@ S
       <tr>
         <th>Engagement</th>
         <th>Best for</th>
-        <th>Status</th>
+        <th>What you get</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>Clinical MCP server build</td>
         <td>Teams needing drug data, interaction, or formulary tools wired into an AI workflow</td>
-        <td class="status">Available</td>
+        <td class="gets">A deployed, documented server your AI workflow can call</td>
       </tr>
       <tr>
         <td>EHR / PBM connector</td>
         <td>Health-tech products that need structured, agent-readable access to existing systems</td>
-        <td class="status">Available</td>
+        <td class="gets">Agent-ready access to the systems you already run</td>
       </tr>
       <tr>
         <td>Deployment &amp; infrastructure</td>
         <td>Projects that have a working prototype but need it live, secured, and monitored</td>
-        <td class="status">Available</td>
+        <td class="gets">Your prototype, live, secured, and monitored</td>
       </tr>
       <tr>
         <td>Advisory / architecture review</td>
         <td>Teams validating clinical logic or MCP design before they build</td>
-        <td class="status">Available</td>
+        <td class="gets">A clear review of your clinical logic and MCP design</td>
       </tr>
     </tbody>
   </table>
@@ -789,7 +896,9 @@ S
 <section class="contact" id="contact">
   <span class="tag mono">Availability</span>
   <h2>Accepting a limited number of clinical AI engagements.</h2>
-  <p class="contact-body">I build MCP servers and clinical decision support tools for pharmacy and health-tech teams, drawing on 32 years of pharmacy practice. Built by a pharmacist, not translated for one.</p>
+  <p class="contact-body">I build MCP servers and clinical decision support tools for pharmacy and health-tech teams, drawing on 32 years of pharmacy practice. I take on a small number of projects at a time so each one gets full attention.</p>
+  <p class="contact-fit">Best fit: teams that value getting clinical logic right over shipping fast.</p>
+  <a class="cta-button" href="mailto:paul@datacompounded.com?subject=Project%20inquiry">Email Paul</a>
   <p class="note contact-links">
     <a href="mailto:paul@datacompounded.com">paul@datacompounded.com</a>
     <span class="sep" aria-hidden="true">·</span>
